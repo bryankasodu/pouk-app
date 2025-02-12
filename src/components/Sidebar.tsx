@@ -2,6 +2,8 @@ import { LayoutDashboard, Users, Calendar, LogOut, LogIn } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+
+
 export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,74 +38,84 @@ export default function Sidebar() {
   return (
     <>
       <div 
-        className="fixed left-0 top-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 hover:w-64 w-20 z-50"
+        className="fixed left-0 top-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 hover:w-64 w-20 z-50 overflow-hidden"
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
       >
-        <div className={`p-4 ${isExpanded ? '' : 'text-center'}`}>
-          <div className="flex items-center justify-center mb-4">
-            <img 
-              src="https://assets.srcbook.com/logo.png" 
-              alt="Logo" 
-              className="h-10 w-auto"
-            />
+        <div className="h-full flex flex-col">
+          {/* Fixed height header section */}
+          <div className="h-32 p-4 flex-shrink-0">
+            <div className="relative">
+              <div className="flex items-center justify-center">
+                <img src="https://mocha-cdn.com/019487d8-fddd-78ae-9b91-195d53b350ce/logo_pouk.svg" alt="Logo" className="w-10 h-10" />
+              </div>
+              {/* Welcome text */}
+              <div className={`mt-2 transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                <h1 className="text-xl font-bold text-gray-800 text-center truncate px-2">Church Management</h1>
+                {user ? (
+                  <p className="text-sm text-gray-600 mt-1 text-center truncate px-2">Welcome, {user.name}</p>
+                ) : (
+                  <p className="text-sm text-gray-600 mt-1 text-center truncate px-2">Welcome, Guest</p>
+                )}
+              </div>
+            </div>
           </div>
-          {isExpanded && (
-            <>
-              <h1 className="text-xl font-bold text-gray-800">Church Management</h1>
-              {user ? (
-                <p className="text-sm text-gray-600 mt-1">Welcome, {user.name}</p>
-              ) : (
-                <p className="text-sm text-gray-600 mt-1">Welcome, Guest</p>
-              )}
-            </>
-          )}
-        </div>
 
-        <nav className="mt-8">
-          {links.map((link) => {
-            const Icon = link.icon;
-            const isActive = location.pathname === link.to;
-            
-            return (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 ${
-                  isActive ? 'bg-gray-100' : ''
-                } ${isExpanded ? '' : 'justify-center'}`}
-                title={!isExpanded ? link.label : undefined}
-              >
-                <Icon className="w-5 h-5" />
-                {isExpanded && <span className="ml-3">{link.label}</span>}
-              </Link>
-            );
-          })}
+          <nav className="flex-1 overflow-y-auto overflow-x-hidden">
+            {links.map((link) => {
+              const Icon = link.icon;
+              const isActive = location.pathname === link.to;
+              
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`flex items-center h-12 px-4 text-gray-700 hover:bg-gray-100 ${
+                    isActive ? 'bg-gray-100' : ''
+                  }`}
+                  title={!isExpanded ? link.label : undefined}
+                >
+                  <div className="w-5 flex-shrink-0">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <span className={`ml-3 transition-opacity duration-300 truncate ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                    {link.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
           
-          {user ? (
-            <button
-              onClick={handleLogoutClick}
-              className={`w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 ${
-                isExpanded ? '' : 'justify-center'
-              }`}
-              title={!isExpanded ? 'Logout' : undefined}
-            >
-              <LogOut className="w-5 h-5" />
-              {isExpanded && <span className="ml-3">Logout</span>}
-            </button>
-          ) : (
-            <Link
-              to="/login"
-              className={`w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 ${
-                isExpanded ? '' : 'justify-center'
-              }`}
-              title={!isExpanded ? 'Login' : undefined}
-            >
-              <LogIn className="w-5 h-5" />
-              {isExpanded && <span className="ml-3">Login</span>}
-            </Link>
-          )}
-        </nav>
+          <div className="flex-shrink-0 p-4">
+            {user ? (
+              <button
+                onClick={handleLogoutClick}
+                className="w-full flex items-center h-12 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
+                title={!isExpanded ? 'Logout' : undefined}
+              >
+                <div className="w-5 flex-shrink-0">
+                  <LogOut className="w-5 h-5" />
+                </div>
+                <span className={`ml-3 transition-opacity duration-300 truncate ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                  Logout
+                </span>
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="w-full flex items-center h-12 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
+                title={!isExpanded ? 'Login' : undefined}
+              >
+                <div className="w-5 flex-shrink-0">
+                  <LogIn className="w-5 h-5" />
+                </div>
+                <span className={`ml-3 transition-opacity duration-300 truncate ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                  Login
+                </span>
+              </Link>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Logout Confirmation Modal */}
