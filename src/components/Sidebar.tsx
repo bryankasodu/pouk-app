@@ -2,8 +2,6 @@ import { LayoutDashboard, Users, Calendar, LogOut, LogIn } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-
-
 export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,18 +36,17 @@ export default function Sidebar() {
   return (
     <>
       <div 
-        className="fixed left-0 top-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 hover:w-64 w-20 z-50 overflow-hidden"
+        className="fixed left-0 top-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 hover:w-64 w-20 z-50"
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
       >
         <div className="h-full flex flex-col">
-          {/* Fixed height header section */}
+          {/* Logo section */}
           <div className="h-32 p-4 flex-shrink-0">
             <div className="relative">
               <div className="flex items-center justify-center">
                 <img src="https://mocha-cdn.com/019487d8-fddd-78ae-9b91-195d53b350ce/logo_pouk.svg" alt="Logo" className="w-10 h-10" />
               </div>
-              {/* Welcome text */}
               <div className={`mt-2 transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
                 <h1 className="text-xl font-bold text-gray-800 text-center truncate px-2">Church Management</h1>
                 {user ? (
@@ -61,6 +58,7 @@ export default function Sidebar() {
             </div>
           </div>
 
+          {/* Navigation Links */}
           <nav className="flex-1 overflow-y-auto overflow-x-hidden">
             {links.map((link) => {
               const Icon = link.icon;
@@ -75,10 +73,10 @@ export default function Sidebar() {
                   }`}
                   title={!isExpanded ? link.label : undefined}
                 >
-                  <div className="w-5 flex-shrink-0">
+                  <div className="w-12 flex-shrink-0 flex items-center justify-center">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className={`ml-3 transition-opacity duration-300 truncate ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                  <span className={`ml-2 transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
                     {link.label}
                   </span>
                 </Link>
@@ -86,30 +84,31 @@ export default function Sidebar() {
             })}
           </nav>
           
-          <div className="flex-shrink-0 p-4">
+          {/* Auth Button */}
+          <div className="flex-shrink-0">
             {user ? (
               <button
                 onClick={handleLogoutClick}
-                className="w-full flex items-center h-12 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
+                className="w-full flex items-center h-12 px-4 text-gray-700 hover:bg-gray-100"
                 title={!isExpanded ? 'Logout' : undefined}
               >
-                <div className="w-5 flex-shrink-0">
+                <div className="w-12 flex-shrink-0 flex items-center justify-center">
                   <LogOut className="w-5 h-5" />
                 </div>
-                <span className={`ml-3 transition-opacity duration-300 truncate ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                <span className={`ml-2 transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
                   Logout
                 </span>
               </button>
             ) : (
               <Link
                 to="/login"
-                className="w-full flex items-center h-12 px-4 text-gray-700 hover:bg-gray-100 rounded-lg"
+                className="w-full flex items-center h-12 px-4 text-gray-700 hover:bg-gray-100"
                 title={!isExpanded ? 'Login' : undefined}
               >
-                <div className="w-5 flex-shrink-0">
+                <div className="w-12 flex-shrink-0 flex items-center justify-center">
                   <LogIn className="w-5 h-5" />
                 </div>
-                <span className={`ml-3 transition-opacity duration-300 truncate ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                <span className={`ml-2 transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
                   Login
                 </span>
               </Link>
